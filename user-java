@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: user-java
+spec:
+  replicas: 1 
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1 
+  template:
+    metadata:
+      labels:
+        app: user-java
+    spec:
+      containers:
+      - name: user-java
+        image: registryvwj3044.azurecr.io/tripinsights/user-java:1.0
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always   
