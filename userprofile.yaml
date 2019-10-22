@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: userprofile
+spec:
+  replicas: 1 
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1 
+  template:
+    metadata:
+      labels:
+        app: userprofile
+    spec:
+      containers:
+      - name: userprofile
+        image: registryvwj3044.azurecr.io/tripinsights/userprofile:1.0
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always   
