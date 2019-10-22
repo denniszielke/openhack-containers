@@ -21,3 +21,10 @@ spec:
         ports:
         - containerPort: 80
         imagePullPolicy: Always  
+        env: 
+        - name: "SQL_PASSWORD"
+          value: "SQL_PASSWORD"
+        - name: "SQL_SERVER"
+          value: "SQL_SERVER"
+        - name: "ASPNETCORE_ENVIRONMENT"
+          value: "Production"
