@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tripviewer
+spec:
+  replicas: 1 
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1 
+  template:
+    metadata:
+      labels:
+        app: tripviewer
+    spec:
+      containers:
+      - name: tripviewer
+        image: registryvwj3044.azurecr.io/tripinsights/tripviewer:1.0
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always 
