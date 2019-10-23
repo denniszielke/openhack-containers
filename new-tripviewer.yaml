@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tripviewer
+spec:
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: tripviewer
+    spec:
+      containers:
+      - name: tripviewer
+        image: registryvwj3044.azurecr.io/tripinsights/tripviewer:1.0
+        ports:
+        - containerPort: 80
+          name: http-tripviewer
+          protocol: TCP
+        imagePullPolicy: Always 
+        env: 
+        - name: "SQL_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: sqlsecret
+              key: sqlpassword
+        - name: "SQL_SERVER"
+          valueFrom:
+            secretKeyRef:
+              name: sqlsecret
+              key: sqlserver
+        - name: "USER_API_ENDPOINT"
+          value: "http://userprofile:80"
+        - name: "TRIPS_API_ENDPOINT"
+          value: "http://trips:80"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer
+spec:
+  selector:
+    app: tripviewer
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http-tripviewer
+  type: LoadBalancer
