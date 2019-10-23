@@ -1,22 +1,22 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: user-java
+  name: trips
 spec:
   replicas: 1 
   template:
     metadata:
       labels:
-        app: user-java
+        app: trips
     spec:
       containers:
-      - name: user-java
-        image: registryvwj3044.azurecr.io/tripinsights/user-java:1.0
+      - name: trips
+        image: registryvwj3044.azurecr.io/tripinsights/trips:1.0
         ports:
         - containerPort: 80
-          name: http-user-java
+          name: http-trips
           protocol: TCP
-        imagePullPolicy: Always   
+        imagePullPolicy: Always 
         env: 
         - name: "SQL_USER"
           valueFrom:
@@ -38,15 +38,17 @@ spec:
             secretKeyRef:
               name: sqlsecret
               key: sqldbname
+        - name: "OPENAPI_DOCS_URI"
+          value: ""
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-java
+  name: trips
 spec:
   selector:
-    app: user-java
+    app: trips
   ports:
     - port: 80
       targetPort: 80
-      name: http-user-java
+      name: http-trips
