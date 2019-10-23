@@ -28,6 +28,11 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 5
         env: 
+        - name: "SQL_USER"
+          valueFrom:
+            secretKeyRef:
+              name: sqlsecret
+              key: sqluser
         - name: "SQL_PASSWORD"
           valueFrom:
             secretKeyRef:
@@ -38,5 +43,10 @@ spec:
             secretKeyRef:
               name: sqlsecret
               key: sqlserver
+        - name: "SQL_DBNAME"
+          valueFrom:
+            secretKeyRef:
+              name: sqlsecret
+              key: sqldbname
         - name: "ASPNETCORE_ENVIRONMENT"
           value: "Production"

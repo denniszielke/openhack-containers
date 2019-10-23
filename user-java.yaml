@@ -14,8 +14,15 @@ spec:
         image: registryvwj3044.azurecr.io/tripinsights/user-java:1.0
         ports:
         - containerPort: 80
+          name: http-user-java
+          protocol: TCP
         imagePullPolicy: Always   
         env: 
+        - name: "SQL_USER"
+          valueFrom:
+            secretKeyRef:
+              name: sqlsecret
+              key: sqluser
         - name: "SQL_PASSWORD"
           valueFrom:
             secretKeyRef:
@@ -26,3 +33,20 @@ spec:
             secretKeyRef:
               name: sqlsecret
               key: sqlserver
+        - name: "SQL_DBNAME"
+          valueFrom:
+            secretKeyRef:
+              name: sqlsecret
+              key: sqldbname
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-java
+spec:
+  selector:
+    app: user-java
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http-user-java

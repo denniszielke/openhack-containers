@@ -14,6 +14,8 @@ spec:
         image: registryvwj3044.azurecr.io/tripinsights/tripviewer:1.0
         ports:
         - containerPort: 80
+          name: http-tripviewer
+          protocol: TCP
         imagePullPolicy: Always 
         env: 
         - name: "SQL_PASSWORD"
@@ -26,3 +28,7 @@ spec:
             secretKeyRef:
               name: sqlsecret
               key: sqlserver
+        - name: "USER_API_ENDPOINT"
+          value: "http://userprofile:80"
+        - name: "TRIPS_API_ENDPOINT"
+          value: "http://trips:80"

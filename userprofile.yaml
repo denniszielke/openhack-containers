@@ -14,8 +14,15 @@ spec:
         image: registryvwj3044.azurecr.io/tripinsights/userprofile:1.0
         ports:
         - containerPort: 80
+          name: http-userprofile
+          protocol: TCP
         imagePullPolicy: Always  
         env: 
+        - name: "SQL_USER"
+          valueFrom:
+            secretKeyRef:
+              name: sqlsecret
+              key: sqluser
         - name: "SQL_PASSWORD"
           valueFrom:
             secretKeyRef:
@@ -25,4 +32,21 @@ spec:
           valueFrom:
             secretKeyRef:
               name: sqlsecret
-              key: sqlserver 
+              key: sqlserver
+        - name: "SQL_DBNAME"
+          valueFrom:
+            secretKeyRef:
+              name: sqlsecret
+              key: sqldbname
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userprofile
+spec:
+  selector:
+    app: userprofile
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http-userprofile
