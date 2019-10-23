@@ -1,17 +1,17 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: tripviewer
+  name: trips
 spec:
   replicas: 1 
   template:
     metadata:
       labels:
-        app: tripviewer
+        app: trips
     spec:
       containers:
-      - name: tripviewer
-        image: registryvwj3044.azurecr.io/tripinsights/tripviewer:1.0
+      - name: trips
+        image: registryvwj3044.azurecr.io/tripinsights/trips:1.0
         ports:
         - containerPort: 80
         imagePullPolicy: Always 
